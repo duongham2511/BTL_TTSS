@@ -78,16 +78,19 @@ void AddMatSection(T** matA, int offset_rowA, int offset_colA, T** matB, int off
         exit(-1);
     }
     T** matBuf = AllocateMemory2D<T>(size_row,size_col);
-    for (int i = 0; i < size_row; i++)
+    int i,j;
+    #pragma omp parallel for default(shared) private (i,j)
+    for (i = 0; i < size_row; i++)
     {
-        for (int j = 0; j < size_col; j++)
+        for (j = 0; j < size_col; j++)
         {
             matBuf[i][j] = matA[i+offset_rowA][j+offset_colA] + matB[i+offset_rowB][j+offset_colB];
         }
     }
-    for (int i = 0; i < size_row; i++)
+    #pragma omp parallel for default(shared) private (i,j)
+    for (i = 0; i < size_row; i++)
     {
-        for (int j = 0; j < size_col; j++)
+        for (j = 0; j < size_col; j++)
         {
             matC[i + offset_rowC][j + offset_colC] = matBuf[i][j];
         }
@@ -111,16 +114,19 @@ void SubMatSection(T** matA, int offset_rowA, int offset_colA, T** matB, int off
         exit(-1);
     }
     T** matBuf = AllocateMemory2D<T>(size_row,size_col);
-    for (int i = 0; i < size_row; i++)
+    int i,j;
+    #pragma omp parallel for default(shared) private (i,j)
+    for (i = 0; i < size_row; i++)
     {
-        for (int j = 0; j < size_col; j++)
+        for (j = 0; j < size_col; j++)
         {
             matBuf[i][j] = matA[i+offset_rowA][j+offset_colA] - matB[i+offset_rowB][j+offset_colB];
         }
     }
-    for (int i = 0; i < size_row; i++)
+    #pragma omp parallel for default(shared) private (i,j)
+    for (i = 0; i < size_row; i++)
     {
-        for (int j = 0; j < size_col; j++)
+        for (j = 0; j < size_col; j++)
         {
             matC[i + offset_rowC][j + offset_colC] = matBuf[i][j];
         }

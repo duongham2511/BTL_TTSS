@@ -5,7 +5,7 @@
 
 int main(int argc, char **argv)
 {
-    int size_A = 4;
+    int size_A = 1024;
     int** matA = AllocateMemory2D<int>(size_A,size_A);
     for (int i = 0; i <size_A; i ++)
     {
@@ -14,7 +14,7 @@ int main(int argc, char **argv)
             matA[i][j] = i+j;
         }
     }
-    int size_B = 4;
+    int size_B = 1024;
     int** matB = AllocateMemory2D<int>(size_B,size_B);
     for (int i = 0; i <size_B; i++)
     {
@@ -24,14 +24,24 @@ int main(int argc, char **argv)
         }
     }
 
-    printMat(matA,size_A,size_A);
-    printMat(matB,size_B,size_B);
+    // printMat(matA,size_A,size_A);
+    // printf("\n");
+    // printMat(matB,size_B,size_B);
+    // printf("\n");
 
-    int size_C = 4;
+    int size_C = 1024;
     int** matC = AllocateMemory2D<int>(size_C,size_C);
 
+    double start_time_naive = omp_get_wtime();
+    matMul_Naive(matA,matB,matC,size_A);
+    double end_time_naive = omp_get_wtime();
+
+    double start_time_strassen = omp_get_wtime();
     matMul_Strassen<int>(matA,matB,matC,size_A);
-    printMat(matC,size_C,size_C);
+    double end_time_strassen = omp_get_wtime();
+    // printMat(matC,size_C,size_C);
+    printf("Naive runtime: %f seconds\n",end_time_naive - start_time_naive);
+    printf("Strassen runtime: %f seconds\n",end_time_strassen - start_time_strassen);
 
     FreeMemory2D<int>(matA);
     FreeMemory2D<int>(matB);
