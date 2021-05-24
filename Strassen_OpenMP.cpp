@@ -47,15 +47,21 @@ int main(int argc, char **argv)
     // FreeMemory2D<int>(matB);
     // FreeMemory2D<int>(matC);
 
-    int **matA = AllocateMemory2D<int>(5,5);
-    for (int i = 0; i < 5; i++)
-        for (int j = 0; j < 5; j++)
+    int **matA = AllocateMemory2D<int>(8,8);
+    for (int i = 0; i < 8; i++)
+        for (int j = 0; j < 8; j++)
             matA[i][j] = i+j;
-    // printMat(matA, 5,5);
-    int new_size = pad2D<int>(matA,5);
-    printf("%d\n",new_size);
-    printMat(matA,new_size,new_size);
+    // printMat(matA, 8,8);
+    int **matA11 = AllocateMemory2D<int>(4,4);
+    int **matA22 = AllocateMemory2D<int>(4,4);
+    split2D<int>(matA,matA22,4,4,4);
+    split2D<int>(matA,matA11,4,0,0);
+    join2D<int>(matA11,matA,4,4,4);
+    join2D<int>(matA22,matA,4,0,0);
+    printMat(matA,8,8);
 
     FreeMemory2D<int>(matA);
+    FreeMemory2D<int>(matA11);
+    FreeMemory2D<int>(matA22);
     return 0;
 }

@@ -30,10 +30,19 @@ template <typename T>
 int pad2D (T**& in_mat, int og_size);
 
 template <typename T>
+void shrink2D(T**& in_mat, int og_size, int new_size);
+
+template <typename T>
 void split2D(T** in_mat, T** out_mat,int size_out, int offset_row, int offset_col);
 
 template <typename T>
 void join2D(T** in_mat, T** out_mat, int size_in, int offset_row, int offset_col);
+
+template <typename T>
+void AddMat(T** matA, T** matB, T**mat_out, int size);
+
+template <typename T>
+void SubMat(T** matA, T** matB, T**mat_out, int size);
 
 int getPower2(int value)
 {
@@ -85,6 +94,18 @@ int pad2D (T**& in_mat, int og_size)
 }
 
 template <typename T>
+void shrink2D(T**& in_mat, int og_size, int new_size)
+{
+    T** temp_mat = AllocateMemory2D<T>(new_size,new_size);
+    int i,j;
+    for (i = 0; i <new_size; i++)
+        for (j = 0; j < new_size; j++)
+            temp_mat[i][j] = in_mat[i][j];
+    FreeMemory2D<T>(in_mat);
+    in_mat = temp_mat;
+}
+
+template <typename T>
 void split2D(T** in_mat, T** out_mat,int size_out, int offset_row, int offset_col)
 {
     int i,j;
@@ -124,6 +145,28 @@ void FreeMemory2D(T** arr)
 {
     delete[] *arr;
     delete[] arr;
+}
+
+template <typename T>
+void AddMat(T** matA, T** matB, T**mat_out, int size)
+{
+    int i,j;
+    for (i = 0; i <size; i++)
+        for (j = 0; j <size; j++)
+        {
+            mat_out[i][j] = matA[i][j] + matB[i][j];
+        }
+}
+
+template <typename T>
+void SubMat(T** matA, T** matB, T**mat_out, int size)
+{
+    int i,j;
+    for (i = 0; i <size; i++)
+        for (j = 0; j <size; j++)
+        {
+            mat_out[i][j] = matA[i][j] - matB[i][j];
+        }
 }
 
 template <typename T>
