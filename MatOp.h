@@ -18,6 +18,24 @@ void matMul_Strassen_v2(T** matA, T** matB, T** matC, int size);
 template <typename T>
 void matMul_Naive(T** matA, T** matB, T** matC, int size);
 
+template <typename T>
+T** AllocateMemory2D (int height, int width);
+
+template <typename T>
+void FreeMemory2D(T** arr);
+
+int getPower2(int value);
+
+template <typename T>
+int pad2D (T**& in_mat, int og_size);
+
+int getPower2(int value)
+{
+    int pow = 1;
+    while (pow < value) pow = pow*2;
+    return pow;
+}
+
 void printMat(int** mat, int height, int width)
 {
     for (int i = 0; i < height; i++){
@@ -40,6 +58,24 @@ void printMat(double** mat, int height, int width)
             else printf(" ");
         }
     }
+}
+
+template <typename T>
+int pad2D (T**& in_mat, int og_size)
+{
+    int new_size = getPower2(og_size);
+    T** temp_mat = AllocateMemory2D<T>(new_size,new_size);
+    for (int i = 0; i < new_size; i++)
+    {
+        for (int j = 0; j < new_size; j++)
+        {
+            temp_mat[i][j] = ((i < og_size) && (j < og_size))? in_mat[i][j] : 0;
+        }
+    }
+    FreeMemory2D<T>(in_mat);
+    in_mat = temp_mat;
+    // printMat(in_mat,new_size,new_size);
+    return new_size;
 }
 
 template <typename T>
