@@ -29,6 +29,12 @@ int getPower2(int value);
 template <typename T>
 int pad2D (T**& in_mat, int og_size);
 
+template <typename T>
+void split2D(T** in_mat, T** out_mat,int size_out, int offset_row, int offset_col);
+
+template <typename T>
+void join2D(T** in_mat, T** out_mat, int size_in, int offset_row, int offset_col);
+
 int getPower2(int value)
 {
     int pow = 1;
@@ -76,6 +82,28 @@ int pad2D (T**& in_mat, int og_size)
     in_mat = temp_mat;
     // printMat(in_mat,new_size,new_size);
     return new_size;
+}
+
+template <typename T>
+void split2D(T** in_mat, T** out_mat,int size_out, int offset_row, int offset_col)
+{
+    int i,j;
+    for (i = 0; i < size_out; i++)
+        for (j = 0; j < size_out; j++)
+        {
+            out_mat[i][j] = in_mat[i+offset_row][j+offset_col];
+        }
+}
+
+template <typename T>
+void join2D(T** in_mat, T** out_mat, int size_in, int offset_row, int offset_col)
+{
+    int i,j;
+    for (i = 0; i <size_in; i++)
+        for (j = 0; j <size_in; j++)
+        {
+            out_mat[i+offset_row][j+offset_col] = in_mat[i][j];
+        }
 }
 
 template <typename T>
