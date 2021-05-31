@@ -3,7 +3,7 @@
 #include <math.h>
 #include "MatOp.h"
 
-#define SIZE 4096
+#define SIZE 2048
 
 int main(int argc, char **argv)
 {
@@ -39,17 +39,19 @@ int main(int argc, char **argv)
     // matMul_Naive(matA,matB,matC,size_A);
     // double end_time_naive = omp_get_wtime();
 
-    double start_time_strassen = omp_get_wtime();
-    matMul_Strassen<int>(matA,matB,matC,size_A);
-    double end_time_strassen = omp_get_wtime();
+    double start_time_strassen_parallel = omp_get_wtime();
+    matMul_parallel<int>(matA,matB,matC,size_A);
+    // printMat(matC,size_C,size_C);
+    // printf("\n");
+    double end_time_strassen_parallel = omp_get_wtime();
 
-    double start_time_strassen_v2= omp_get_wtime();
-    matMul_Strassen_v2<int>(matA,matB,matC,size_A);
-    double end_time_strassen_v2 = omp_get_wtime();
+    double start_time_strassen_serial= omp_get_wtime();
+    matMul_Strassen_serial<int>(matA,matB,matC,size_A);
+    double end_time_strassen_serial = omp_get_wtime();
     // printMat(matC,size_C,size_C);
     // printf("Naive runtime: %f seconds\n",end_time_naive - start_time_naive);
-    printf("Strassen runtime: %f seconds\n",end_time_strassen - start_time_strassen);
-    printf("Strassen v2 runtime: %f seconds\n",end_time_strassen_v2 - start_time_strassen_v2);
+    printf("Strassen parallel runtime: %f seconds\n",end_time_strassen_parallel - start_time_strassen_parallel);
+    printf("Strassen serial runtime: %f seconds\n",end_time_strassen_serial - start_time_strassen_serial);
 
     FreeMemory2D<int>(matA);
     FreeMemory2D<int>(matB);
