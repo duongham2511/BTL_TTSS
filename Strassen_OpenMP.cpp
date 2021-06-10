@@ -21,7 +21,9 @@ int main(int argc, char **argv)
         }
     }
 
-    matMul_Naive(A,B,C,n);
+    double start_strassen_parallel = omp_get_wtime();
+    matMul_parallel(A,B,C,n);
+    double end_strassen_parallel = omp_get_wtime();
 
     double norm = 0.0;
     for (i=0  ; i < n ; i++)
@@ -31,7 +33,10 @@ int main(int argc, char **argv)
     if (norm > 1e-10)
         printf("Something is wrong... Norm is equal to %f\n", norm);
     else
+    {
         printf("Yup, we're good!\n");
+        printf("Runtime is %.2f seconds.\n",end_strassen_parallel - start_strassen_parallel);
+    }
 
     FreeMemory2D<double>(A);
     FreeMemory2D<double>(B);
