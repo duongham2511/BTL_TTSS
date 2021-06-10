@@ -3,75 +3,38 @@
 #include <math.h>
 #include "MatOp.h"
 
-#define SIZE 2048
+#define SIZE 4096
 
 int main(int argc, char **argv)
 {
-    int size_A = SIZE;
-    int** matA = AllocateMemory2D<int>(size_A,size_A);
-    for (int i = 0; i <size_A; i ++)
-    {
-        for (int j = 0; j < size_A; j++)
-        {
-            matA[i][j] = i+j;
-        }
-    }
-    int size_B = SIZE;
-    int** matB = AllocateMemory2D<int>(size_B,size_B);
-    for (int i = 0; i <size_B; i++)
-    {
-        for (int j = 0; j <size_B; j++)
-        {
-            matB[i][j]= size_B-i-j;
+    const int n = SIZE;
+    double **A = AllocateMemory2D<double>(n,n);
+    double **B = AllocateMemory2D<double>(n,n);
+    double **C = AllocateMemory2D<double>(n,n);
+
+    int i,j;
+
+    for (i = 0; i < n; i++) {
+        for (j = 0; j < n; j++) {
+            A[i][j] = (double)i / (double)n;
+            B[i][j] = (double)j / (double)n;
         }
     }
 
-    // printMat(matA,size_A,size_A);
-    // printf("\n");
-    // printMat(matB,size_B,size_B);
-    // printf("\n");
+    matMul_Naive(A,B,C,n);
 
-    int size_C = SIZE;
-    int** matC = AllocateMemory2D<int>(size_C,size_C);
+    double norm = 0.0;
+    for (i=0  ; i < n ; i++)
+        for (j=0  ; j < n ; j++)
+            norm += (C[i][j]-(double)(i*j)/(double)n)*(C[i][j]-(double)(i*j)/(double)n);
 
+    if (norm > 1e-10)
+        printf("Something is wrong... Norm is equal to %f\n", norm);
+    else
+        printf("Yup, we're good!\n");
 
-    // double start_time_naive = omp_get_wtime();
-    // matMul_Naive(matA,matB,matC,size_A);
-    // double end_time_naive = omp_get_wtime();
-
-    double start_time_strassen_parallel = omp_get_wtime();
-    matMul_parallel<int>(matA,matB,matC,size_A);
-    // printMat(matC,size_C,size_C);
-    // printf("\n");
-    double end_time_strassen_parallel = omp_get_wtime();
-
-    double start_time_strassen_serial= omp_get_wtime();
-    matMul_Strassen_serial<int>(matA,matB,matC,size_A);
-    double end_time_strassen_serial = omp_get_wtime();
-    // printMat(matC,size_C,size_C);
-    // printf("Naive runtime: %f seconds\n",end_time_naive - start_time_naive);
-    printf("Strassen parallel runtime: %f seconds\n",end_time_strassen_parallel - start_time_strassen_parallel);
-    printf("Strassen serial runtime: %f seconds\n",end_time_strassen_serial - start_time_strassen_serial);
-
-    FreeMemory2D<int>(matA);
-    FreeMemory2D<int>(matB);
-    FreeMemory2D<int>(matC);
-
-    // int **matA = AllocateMemory2D<int>(8,8);
-    // for (int i = 0; i < 8; i++)
-    //     for (int j = 0; j < 8; j++)
-    //         matA[i][j] = i+j;
-    // // printMat(matA, 8,8);
-    // int **matA11 = AllocateMemory2D<int>(4,4);
-    // int **matA22 = AllocateMemory2D<int>(4,4);
-    // split2D<int>(matA,matA22,4,4,4);
-    // split2D<int>(matA,matA11,4,0,0);
-    // join2D<int>(matA11,matA,4,4,4);
-    // join2D<int>(matA22,matA,4,0,0);
-    // printMat(matA,8,8);
-
-    // FreeMemory2D<int>(matA);
-    // FreeMemory2D<int>(matA11);
-    // FreeMemory2D<int>(matA22);
+    FreeMemory2D<double>(A);
+    FreeMemory2D<double>(B);
+    FreeMemory2D<double>(C);
     return 0;
 }
