@@ -3,7 +3,7 @@
 #include <math.h>
 #include "MatOp.h"
 
-#define SIZE 4096
+#define SIZE 1024
 
 int main(int argc, char **argv)
 {
@@ -22,7 +22,7 @@ int main(int argc, char **argv)
     }
 
     double start_strassen_parallel = omp_get_wtime();
-    matMul_parallel(A,B,C,n);
+    matMul_Strassen_body(A,B,C,n);
     double end_strassen_parallel = omp_get_wtime();
 
     double norm = 0.0;

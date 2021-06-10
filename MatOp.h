@@ -4,6 +4,8 @@
 #include <math.h>
 #include <iostream>
 
+#define THRESHOLD 64
+
 template <typename T>
 void AddMatSection(T** matA, int offset_rowA, int offset_colA, T** matB, int offset_rowB, int offset_colB, T** matC, int offset_rowC, int offset_colC, int size_row, int size_col);
 
@@ -682,5 +684,138 @@ void matMul_parallel(T**& matA, T**& matB, T**& matC, int size)
             omp_set_num_threads(8);
             matMul_Strassen_parallel(matA,matB,matC,size);
         }
+    }
+}
+
+template <typename T>
+void matMul_Strassen_body(T**& A, T**& B, T**& C, int size)
+{
+    if (size <= THRESHOLD)
+    {
+        matMul_Naive<T>(A, B, C, size);
+    } else 
+    {
+        T** T_1 = AllocateMemory2D<T>(size/2,size/2);
+        T** T_2 = AllocateMemory2D<T>(size/2,size/2);
+        T** T_3 = AllocateMemory2D<T>(size/2,size/2);
+        T** T_4 = AllocateMemory2D<T>(size/2,size/2);
+        T** T_5 = AllocateMemory2D<T>(size/2,size/2);
+        T** T_6 = AllocateMemory2D<T>(size/2,size/2);
+        T** T_7 = AllocateMemory2D<T>(size/2,size/2);
+        T** T_8 = AllocateMemory2D<T>(size/2,size/2);
+        T** T_9 = AllocateMemory2D<T>(size/2,size/2);
+        T** T_10 = AllocateMemory2D<T>(size/2,size/2);
+
+        T** B_11 = AllocateMemory2D<T>(size/2,size/2);
+        T** B_22 = AllocateMemory2D<T>(size/2,size/2);
+        T** B_12 = AllocateMemory2D<T>(size/2,size/2);
+        T** B_21 = AllocateMemory2D<T>(size/2,size/2);
+        T** A_11 = AllocateMemory2D<T>(size/2,size/2);
+        T** A_22 = AllocateMemory2D<T>(size/2,size/2);
+        T** A_12 = AllocateMemory2D<T>(size/2,size/2);
+        T** A_21 = AllocateMemory2D<T>(size/2,size/2);
+
+        T** Q_1 = AllocateMemory2D<T>(size/2,size/2);
+        T** Q_2 = AllocateMemory2D<T>(size/2,size/2);
+        T** Q_3 = AllocateMemory2D<T>(size/2,size/2);
+        T** Q_4 = AllocateMemory2D<T>(size/2,size/2);
+        T** Q_5 = AllocateMemory2D<T>(size/2,size/2);
+        T** Q_6 = AllocateMemory2D<T>(size/2,size/2);
+        T** Q_7 = AllocateMemory2D<T>(size/2,size/2);
+
+        split2D<T>(A,A_11,size/2,0,0);
+        split2D<T>(A,A_12,size/2,0,size/2);
+        split2D<T>(A,A_21,size/2,size/2,0);
+        split2D<T>(A,A_22,size/2,size/2,size/2);
+        split2D<T>(B,B_11,size/2,0,0);
+        split2D<T>(B,B_12,size/2,0,size/2);
+        split2D<T>(B,B_21,size/2,size/2,0);
+        split2D<T>(B,B_22,size/2,size/2,size/2);
+
+        AddMat<T>(A_11,A_22,T_1,size/2);
+        AddMat<T>(B_11,B_22,T_6,size/2);
+        matMul_Strassen_body<T>(T_1,T_6,Q_1,size/2);
+
+        AddMat<T>(A_21,A_22,T_2,size/2);
+        matMul_Strassen_body<T>(T_2,B_11,Q_2,size/2);
+
+        SubMat<T>(B_12,B_22,T_7,size/2);
+        matMul_Strassen_body<T>(A_11,T_7,Q_3,size/2);
+
+        SubMat<T>(B_21,B_11,T_8,size/2);
+        matMul_Strassen_body<T>(A_22,T_8,Q_4,size/2);
+
+        AddMat<T>(A_11,A_12,T_3,size/2);
+        matMul_Strassen_body<T>(T_3,B_22,Q_5,size/2);
+
+        SubMat<T>(A_21,A_11,T_4,size/2);
+        AddMat<T>(B_11,B_12,T_9,size/2);
+        matMul_Strassen_body<T>(T_4,T_9,Q_6,size/2);
+
+        SubMat<T>(A_12,A_22,T_5,size/2);
+        AddMat<T>(B_11,B_22,T_10,size/2);
+        matMul_Strassen_body<T>(T_5,T_10,Q_7,size/2);
+
+        FreeMemory2D<T>(T_1);
+        FreeMemory2D<T>(T_2);
+        FreeMemory2D<T>(T_3);
+        FreeMemory2D<T>(T_4);
+        FreeMemory2D<T>(T_5);
+        FreeMemory2D<T>(T_6);
+        FreeMemory2D<T>(T_7);
+        FreeMemory2D<T>(T_8);
+        FreeMemory2D<T>(T_9);
+        FreeMemory2D<T>(T_10);
+        FreeMemory2D<T>(B_11);
+        FreeMemory2D<T>(B_22);
+        FreeMemory2D<T>(B_12);
+        FreeMemory2D<T>(B_21);
+        FreeMemory2D<T>(A_11);
+        FreeMemory2D<T>(A_22);
+        FreeMemory2D<T>(A_12);
+        FreeMemory2D<T>(A_21);
+
+        T** U_1 = AllocateMemory2D<T>(size/2,size/2);
+        T** U_2 = AllocateMemory2D<T>(size/2,size/2);
+        T** U_3 = AllocateMemory2D<T>(size/2,size/2);
+        T** U_4 = AllocateMemory2D<T>(size/2,size/2);
+
+        AddMat<T>(Q_1,Q_4,U_1,size/2);
+        SubMat<T>(Q_5,Q_7,U_2,size/2);
+        AddMat<T>(Q_3,Q_1,U_3,size/2);
+        SubMat<T>(Q_2,Q_6,U_4,size/2);
+
+        T** C_11 = AllocateMemory2D<T>(size/2,size/2);
+        T** C_12 = AllocateMemory2D<T>(size/2,size/2);
+        T** C_21 = AllocateMemory2D<T>(size/2,size/2);
+        T** C_22 = AllocateMemory2D<T>(size/2,size/2);
+        
+        SubMat<T>(U_1,U_2,C_11,size/2);
+        AddMat<T>(Q_3,Q_5,C_12,size/2);
+        AddMat<T>(Q_2,Q_4,C_21,size/2);
+        SubMat<T>(U_3,U_4,C_22,size/2);
+
+        FreeMemory2D<T>(Q_1);
+        FreeMemory2D<T>(Q_2);
+        FreeMemory2D<T>(Q_3);
+        FreeMemory2D<T>(Q_4);
+        FreeMemory2D<T>(Q_5);
+        FreeMemory2D<T>(Q_6);
+        FreeMemory2D<T>(Q_7);
+
+        FreeMemory2D<T>(U_1);
+        FreeMemory2D<T>(U_2);
+        FreeMemory2D<T>(U_3);
+        FreeMemory2D<T>(U_4);
+
+        join2D<T>(C_11,C,size/2,0,0);
+        join2D<T>(C_12,C,size/2,0,size/2);
+        join2D<T>(C_21,C,size/2,size/2,0);
+        join2D<T>(C_22,C,size/2,size/2,size/2);
+
+        FreeMemory2D<T>(C_11);
+        FreeMemory2D<T>(C_12);
+        FreeMemory2D<T>(C_21);
+        FreeMemory2D<T>(C_22);
     }
 }
