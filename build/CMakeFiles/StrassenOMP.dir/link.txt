@@ -1,1 +1,1 @@
-/bin/x86_64-linux-gnu-g++-9  -g  -rdynamic CMakeFiles/StrassenOMP.dir/main.cpp.o  -o StrassenOMP  -fopenmp 
+/bin/x86_64-linux-gnu-g++-9  -O3 -DNDEBUG  -rdynamic CMakeFiles/StrassenOMP.dir/main.cpp.o  -o StrassenOMP  -fopenmp 
