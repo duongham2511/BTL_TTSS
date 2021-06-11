@@ -193,12 +193,11 @@ class TestSuite{
             printf("Matrix B of %d x %d padded to %d x %d.\n", colA_rowB, colB, n, n);
             MatOp::pad2D(B,colA_rowB,colB,n,n);
             // Utility::printMat(B,n,n);
-            needPad = true;
         }
 
         for (int i =1; i <= attempts; i++)
         {
-            printf("Attempt %-2d starting...\t", i);
+            printf("Attempt %-2d starting...    ", i);
             C = Utility::AllocateMemory2D<double>(n,n);
             start = omp_get_wtime();
             matMul_Strassen_P(A,B,C,n);

@@ -7,13 +7,12 @@
 #include "Strassen.h"
 #include "TestSuite.h"
 
-#define SIZE 4
 
 int main(int argc, char **argv)
 {
     // const int n = SIZE;
-    omp_set_num_threads(32);
-    TestSuite::StrassenOMP_01Test(4000,4000,4000,10);
+    omp_set_num_threads(8);
+    TestSuite::StrassenOMP_01Test(8192,8192,8192,3);
     // double **A = Utility::AllocateMemory2D<double>(n,n);
     // double **B = Utility::AllocateMemory2D<double>(n,n);
     // double **C = Utility::AllocateMemory2D<double>(n,n);
