@@ -13,7 +13,7 @@ int main(int argc, char **argv)
 {
     // const int n = SIZE;
     omp_set_num_threads(32);
-    TestSuite::StrassenOMP_01Test(1000,1000,1000,10);
+    TestSuite::StrassenOMP_01Test(4000,4000,4000,10);
     // double **A = Utility::AllocateMemory2D<double>(n,n);
     // double **B = Utility::AllocateMemory2D<double>(n,n);
     // double **C = Utility::AllocateMemory2D<double>(n,n);

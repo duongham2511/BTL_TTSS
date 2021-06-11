@@ -178,7 +178,7 @@ class TestSuite{
         double start, end;
         TestSuite::GenTestMat(A,B,rowA,colA_rowB,colB);
 
-        printf("Multiplying a %d x %d matrix with a %d x %d matrix using Strassen Serial, %d try.\n",rowA, colA_rowB, colA_rowB, colB, attempts);
+        printf("Multiplying a %d x %d matrix with a %d x %d matrix using Strassen OMP, %d try.\n",rowA, colA_rowB, colA_rowB, colB, attempts);
 
         int max = fmax(rowA,colB);
         max = max > colA_rowB ? max : colA_rowB;
