@@ -7,7 +7,7 @@
 #include "MatOp.h"
 #include "Utils.h"
 
-#define THRESHOLD 1
+#define THRESHOLD 64
 
 template <typename T>
 void matMul_Strassen_S(T**& A, T**& B, T**& C, int size)
