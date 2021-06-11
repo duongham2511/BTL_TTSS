@@ -8,19 +8,17 @@
 #include <iostream>
 #include "Utils.h"
 
-#define THRESHOLD 64
-
 class MatOp_P {
     public:
 
     template <typename T>
-    static void matMul_Naive(T** matA, T** matB, T** matC, int size)
+    static void matMul_Naive(T** matA, T** matB, T** matC, int rowA, int colA_rowB, int colB)
     {;
         #pragma omp parallel for collapse(2)
-        for (int i = 0; i <size;i++){
-            for (int j = 0; j <size; j++){
+        for (int i = 0; i < rowA;i++){
+            for (int j = 0; j < colB; j++){
                 matC[i][j] = 0;
-                for (int k = 0; k <size; k++)
+                for (int k = 0; k <colA_rowB; k++)
                 {
                     // #pragma omp critical
                     matC[i][j] += matA[i][k] * matB[k][j];

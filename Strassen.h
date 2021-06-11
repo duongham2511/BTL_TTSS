@@ -7,14 +7,14 @@
 #include "MatOp.h"
 #include "Utils.h"
 
-#define THRESHOLD 64
+#define THRESHOLD 1
 
 template <typename T>
 void matMul_Strassen_S(T**& A, T**& B, T**& C, int size)
 {
     if (size <= THRESHOLD)
     {
-        MatOp::matMul_Naive<T>(A, B, C, size);
+        MatOp::matMul_Naive<T>(A, B, C, size,size,size);
     } else 
     {
         T** T_1 = Utility::AllocateMemory2D<T>(size/2,size/2);
@@ -143,11 +143,11 @@ void matMul_Strassen_S(T**& A, T**& B, T**& C, int size)
 }
 
 template <typename T>
-static void matMul_Strassen_P_body(T**& A, T**& B, T**& C, int size)
+void matMul_Strassen_P_body(T**& A, T**& B, T**& C, int size)
 {
     if (size <= THRESHOLD)
     {
-        MatOp::matMul_Naive<T>(A, B, C, size);
+        MatOp::matMul_Naive<T>(A, B, C, size,size,size);
     } else 
     {
         T** T_1 = Utility::AllocateMemory2D<T>(size/2,size/2);

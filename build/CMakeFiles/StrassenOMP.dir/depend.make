@@ -4,6 +4,7 @@
 CMakeFiles/StrassenOMP.dir/main.cpp.o: ../MatOp.h
 CMakeFiles/StrassenOMP.dir/main.cpp.o: ../MatOp_P.h
 CMakeFiles/StrassenOMP.dir/main.cpp.o: ../Strassen.h
+CMakeFiles/StrassenOMP.dir/main.cpp.o: ../TestSuite.h
 CMakeFiles/StrassenOMP.dir/main.cpp.o: ../Utils.h
 CMakeFiles/StrassenOMP.dir/main.cpp.o: ../main.cpp
 

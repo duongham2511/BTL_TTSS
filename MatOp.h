@@ -8,18 +8,17 @@
 #include <iostream>
 #include "Utils.h"
 
-#define THRESHOLD 64
 
 class MatOp {
     public:
 
     template <typename T>
-    static void matMul_Naive(T** matA, T** matB, T** matC, int size)
+    static void matMul_Naive(T** matA, T** matB, T** matC, int rowA, int colA_rowB, int colB)
     {
-        for (int i = 0; i <size;i++){
-            for (int j = 0; j <size; j++){
+        for (int i = 0; i < rowA;i++){
+            for (int j = 0; j <colB; j++){
                 matC[i][j] = 0;
-                for (int k = 0; k <size; k++)
+                for (int k = 0; k <colA_rowB; k++)
                 {
                     matC[i][j] += matA[i][k] * matB[k][j];
                 }
@@ -28,30 +27,28 @@ class MatOp {
     }
 
     template <typename T>
-    static int pad2D (T**& in_mat, int og_size)
+    static void pad2D (T**& in_mat, int og_row, int og_col, int new_row, int new_col)
     {
-        int new_size = Utility::getPower2(og_size);
-        T** temp_mat = Utility::AllocateMemory2D<T>(new_size,new_size);
-        for (int i = 0; i < new_size; i++)
+        T** temp_mat = Utility::AllocateMemory2D<T>(new_row,new_col);
+        for (int i = 0; i < new_row; i++)
         {
-            for (int j = 0; j < new_size; j++)
+            for (int j = 0; j < new_col; j++)
             {
-                temp_mat[i][j] = ((i < og_size) && (j < og_size))? in_mat[i][j] : 0;
+                temp_mat[i][j] = ((i < og_row) && (j < og_col))? in_mat[i][j] : 0;
             }
         }
         Utility::FreeMemory2D<T>(in_mat);
         in_mat = temp_mat;
         // printMat(in_mat,new_size,new_size);
-        return new_size;
     }
 
     template <typename T>
-    static void shrink2D(T**& in_mat, int og_size, int new_size)
+    static void shrink2D(T**& in_mat, int og_row, int og_col, int new_row, int new_col)
     {
-        T** temp_mat = Utility::AllocateMemory2D<T>(new_size,new_size);
+        T** temp_mat = Utility::AllocateMemory2D<T>(new_row,new_col);
         int i,j;
-        for (i = 0; i <new_size; i++)
-            for (j = 0; j < new_size; j++)
+        for (i = 0; i <new_row; i++)
+            for (j = 0; j < new_col; j++)
                 temp_mat[i][j] = in_mat[i][j];
         Utility::FreeMemory2D<T>(in_mat);
         in_mat = temp_mat;
