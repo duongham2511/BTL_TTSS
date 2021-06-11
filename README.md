@@ -1,0 +1,1 @@
+To build and run this project, use VSCode with CMake extension

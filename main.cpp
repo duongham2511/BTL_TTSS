@@ -3,14 +3,15 @@
 #include <math.h>
 #include "Utils.h"
 #include "MatOp.h"
+#include "MatOp_P.h"
 #include "Strassen.h"
 
-#define SIZE 256
+#define SIZE 1024
 
 int main(int argc, char **argv)
 {
     const int n = SIZE;
-
+    omp_set_num_threads(8);
     double **A = Utility::AllocateMemory2D<double>(n,n);
     double **B = Utility::AllocateMemory2D<double>(n,n);
     double **C = Utility::AllocateMemory2D<double>(n,n);
@@ -25,7 +26,8 @@ int main(int argc, char **argv)
     }
 
     double start_strassen_parallel = omp_get_wtime();
-    matMul_Strassen_body(A,B,C,n);
+    // matMul_Strassen_body(A,B,C,n);
+    MatOp_P::matMul_Naive(A,B,C,n);
     double end_strassen_parallel = omp_get_wtime();
 
     double norm = 0.0;

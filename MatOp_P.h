@@ -15,12 +15,14 @@ class MatOp_P {
 
     template <typename T>
     static void matMul_Naive(T** matA, T** matB, T** matC, int size)
-    {
+    {;
+        #pragma omp parallel for collapse(2)
         for (int i = 0; i <size;i++){
             for (int j = 0; j <size; j++){
                 matC[i][j] = 0;
                 for (int k = 0; k <size; k++)
                 {
+                    // #pragma omp critical
                     matC[i][j] += matA[i][k] * matB[k][j];
                 }
             }

@@ -20,6 +20,20 @@ iostream
 Utils.h
 /mnt/c/Users/ADMIN/Desktop/BTL/BTL TTSS/Assignment/BTL_TTSS/Utils.h
 
+/mnt/c/Users/ADMIN/Desktop/BTL/BTL TTSS/Assignment/BTL_TTSS/MatOp_P.h
+omp.h
+-
+stdio.h
+-
+stdlib.h
+-
+math.h
+-
+iostream
+-
+Utils.h
+/mnt/c/Users/ADMIN/Desktop/BTL/BTL TTSS/Assignment/BTL_TTSS/Utils.h
+
 /mnt/c/Users/ADMIN/Desktop/BTL/BTL TTSS/Assignment/BTL_TTSS/Strassen.h
 omp.h
 -
@@ -53,6 +67,8 @@ Utils.h
 /mnt/c/Users/ADMIN/Desktop/BTL/BTL TTSS/Assignment/BTL_TTSS/Utils.h
 MatOp.h
 /mnt/c/Users/ADMIN/Desktop/BTL/BTL TTSS/Assignment/BTL_TTSS/MatOp.h
+MatOp_P.h
+/mnt/c/Users/ADMIN/Desktop/BTL/BTL TTSS/Assignment/BTL_TTSS/MatOp_P.h
 Strassen.h
 /mnt/c/Users/ADMIN/Desktop/BTL/BTL TTSS/Assignment/BTL_TTSS/Strassen.h
 
