@@ -1,0 +1,58 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/mnt/c/Users/ADMIN/Desktop/BTL/BTL TTSS/Assignment/BTL_TTSS/MatOp.h
+omp.h
+-
+stdio.h
+-
+stdlib.h
+-
+math.h
+-
+iostream
+-
+Utils.h
+/mnt/c/Users/ADMIN/Desktop/BTL/BTL TTSS/Assignment/BTL_TTSS/Utils.h
+
+/mnt/c/Users/ADMIN/Desktop/BTL/BTL TTSS/Assignment/BTL_TTSS/Strassen.h
+omp.h
+-
+stdio.h
+-
+math.h
+-
+MatOp.h
+/mnt/c/Users/ADMIN/Desktop/BTL/BTL TTSS/Assignment/BTL_TTSS/MatOp.h
+Utils.h
+/mnt/c/Users/ADMIN/Desktop/BTL/BTL TTSS/Assignment/BTL_TTSS/Utils.h
+
+/mnt/c/Users/ADMIN/Desktop/BTL/BTL TTSS/Assignment/BTL_TTSS/Utils.h
+stdio.h
+-
+stdlib.h
+-
+math.h
+-
+iostream
+-
+
+/mnt/c/Users/ADMIN/Desktop/BTL/BTL TTSS/Assignment/BTL_TTSS/main.cpp
+omp.h
+-
+stdio.h
+-
+math.h
+-
+Utils.h
+/mnt/c/Users/ADMIN/Desktop/BTL/BTL TTSS/Assignment/BTL_TTSS/Utils.h
+MatOp.h
+/mnt/c/Users/ADMIN/Desktop/BTL/BTL TTSS/Assignment/BTL_TTSS/MatOp.h
+Strassen.h
+/mnt/c/Users/ADMIN/Desktop/BTL/BTL TTSS/Assignment/BTL_TTSS/Strassen.h
+
