@@ -11,6 +11,6 @@
 int main(int argc, char **argv)
 {
     omp_set_num_threads(8);
-    TestSuite::StrassenOMP_01Test(8192,8192,8192,3);
+    TestSuite::StrassenOMP_01Test(2048,2048,2048,3);
     return 0;
 }

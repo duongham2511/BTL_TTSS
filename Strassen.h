@@ -14,7 +14,7 @@ void matMul_Strassen_S(T**& A, T**& B, T**& C, int size)
 {
     if (size <= THRESHOLD)
     {
-        MatOp_P::matMul_Naive<T>(A, B, C, size,size,size);
+        MatOp::matMul_Naive<T>(A, B, C, size,size,size);
     } else 
     {
         T** T_1 = Utility::AllocateMemory2D<T>(size/2,size/2);
@@ -147,7 +147,7 @@ void matMul_Strassen_P_body(T**& A, T**& B, T**& C, int size)
 {
     if (size <= THRESHOLD)
     {
-        MatOp::matMul_Naive<T>(A, B, C, size,size,size);
+        MatOp_P::matMul_Naive<T>(A, B, C, size,size,size);
     } else 
     {
         T** T_1 = Utility::AllocateMemory2D<T>(size/2,size/2);
