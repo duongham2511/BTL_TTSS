@@ -32,6 +32,7 @@ class MatOp_P {
     {
         int new_size = Utility::getPower2(og_size);
         T** temp_mat = Utility::AllocateMemory2D<T>(new_size,new_size);
+        #pragma omp parallel for collapse(2)
         for (int i = 0; i < new_size; i++)
         {
             for (int j = 0; j < new_size; j++)
@@ -49,9 +50,9 @@ class MatOp_P {
     static void shrink2D(T**& in_mat, int og_size, int new_size)
     {
         T** temp_mat = Utility::AllocateMemory2D<T>(new_size,new_size);
-        int i,j;
-        for (i = 0; i <new_size; i++)
-            for (j = 0; j < new_size; j++)
+        #pragma omp parallel for collapse(2)
+        for (int i = 0; i <new_size; i++)
+            for (int j = 0; j < new_size; j++)
                 temp_mat[i][j] = in_mat[i][j];
         Utility::FreeMemory2D<T>(in_mat);
         in_mat = temp_mat;
@@ -60,9 +61,9 @@ class MatOp_P {
     template <typename T>
     static void split2D(T** in_mat, T** out_mat,int size_out, int offset_row, int offset_col)
     {
-        int i,j;
-        for (i = 0; i < size_out; i++)
-            for (j = 0; j < size_out; j++)
+        #pragma omp parallel for collapse(2)
+        for (int i = 0; i < size_out; i++)
+            for (int j = 0; j < size_out; j++)
             {
                 out_mat[i][j] = in_mat[i+offset_row][j+offset_col];
             }
@@ -71,9 +72,9 @@ class MatOp_P {
     template <typename T>
     static void join2D(T** in_mat, T** out_mat, int size_in, int offset_row, int offset_col)
     {
-        int i,j;
-        for (i = 0; i <size_in; i++)
-            for (j = 0; j <size_in; j++)
+        #pragma omp parallel for collapse(2)
+        for (int i = 0; i <size_in; i++)
+            for (int j = 0; j <size_in; j++)
             {
                 out_mat[i+offset_row][j+offset_col] = in_mat[i][j];
             }
@@ -82,9 +83,9 @@ class MatOp_P {
     template <typename T>
     static void AddMat(T** matA, T** matB, T**mat_out, int size)
     {
-        int i,j;
-        for (i = 0; i <size; i++)
-            for (j = 0; j <size; j++)
+        #pragma omp parallel for collapse(2)
+        for (int i = 0; i <size; i++)
+            for (int j = 0; j <size; j++)
             {
                 mat_out[i][j] = matA[i][j] + matB[i][j];
             }
@@ -93,9 +94,9 @@ class MatOp_P {
     template <typename T>
     static void SubMat(T** matA, T** matB, T**mat_out, int size)
     {
-        int i,j;
-        for (i = 0; i <size; i++)
-            for (j = 0; j <size; j++)
+        #pragma omp parallel for collapse(2)
+        for (int i = 0; i <size; i++)
+            for (int j = 0; j <size; j++)
             {
                 mat_out[i][j] = matA[i][j] - matB[i][j];
             }
