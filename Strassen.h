@@ -306,6 +306,7 @@ void matMul_Strassen_P_body(T**& A, T**& B, T**& C, int size)
         {
             MatOp::SubMat<T>(U_3,U_4,C_22,size/2);
         }
+        #pragma omp taskwait
 
         Utility::FreeMemory2D<T>(Q_2);
         Utility::FreeMemory2D<T>(Q_3);
