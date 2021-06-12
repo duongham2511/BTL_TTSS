@@ -257,26 +257,26 @@ void matMul_Strassen_P_body(T**& A, T**& B, T**& C, int size)
         T** U_3 = Utility::AllocateMemory2D<T>(size/2,size/2);
         T** U_4 = Utility::AllocateMemory2D<T>(size/2,size/2);
 
-        #pragma omp task
-        {
+        // #pragma omp task
+        // {
             MatOp::AddMat<T>(Q_1,Q_4,U_1,size/2);
-        }
+        // }
 
-        #pragma omp task
-        {
+        // #pragma omp task
+        // {
             MatOp::SubMat<T>(Q_5,Q_7,U_2,size/2);
-        }
+        // }
 
-        #pragma omp task
-        {
+        // #pragma omp task
+        // {
             MatOp::AddMat<T>(Q_3,Q_1,U_3,size/2);
-        }
+        // }
         
-        #pragma omp task
-        {
+        // #pragma omp task
+        // {
             MatOp::SubMat<T>(Q_2,Q_6,U_4,size/2);
-        }
-        #pragma omp taskwait
+        // }
+        // #pragma omp taskwait
 
         Utility::FreeMemory2D<T>(Q_1);
         Utility::FreeMemory2D<T>(Q_6);
@@ -287,26 +287,26 @@ void matMul_Strassen_P_body(T**& A, T**& B, T**& C, int size)
         T** C_21 = Utility::AllocateMemory2D<T>(size/2,size/2);
         T** C_22 = Utility::AllocateMemory2D<T>(size/2,size/2);
         
-        #pragma omp task
-        {
+        // #pragma omp task
+        // {
             MatOp::SubMat<T>(U_1,U_2,C_11,size/2);
-        }
+        // }
 
-        #pragma omp task
-        {
+        // #pragma omp task
+        // {
             MatOp::AddMat<T>(Q_3,Q_5,C_12,size/2);
-        }
+        // }
 
-        #pragma omp task
-        {
+        // #pragma omp task
+        // {
             MatOp::AddMat<T>(Q_2,Q_4,C_21,size/2);
-        }
+        // }
 
-        #pragma omp task
-        {
+        // #pragma omp task
+        // {
             MatOp::SubMat<T>(U_3,U_4,C_22,size/2);
-        }
-        #pragma omp taskwait
+        // }
+        // #pragma omp taskwait
 
         Utility::FreeMemory2D<T>(Q_2);
         Utility::FreeMemory2D<T>(Q_3);
